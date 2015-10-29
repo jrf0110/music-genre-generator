@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script>
+      Array.prototype.random = function(){
+        return this[ ~~( Math.random() * this.length ) ];
+      };
+
+      var genres = [
+        'metal', 'pop', 'punk', 'hymnals', 'country',
+        'bluegrass', 'rock', 'folk', 'jazz', 'swing',
+        'step', 'trance', 'jams', 'disco', 'punk', 'ace of base',
+        'grunge', 'rap', 'blues'
+      ];
+
+      var modifiers = [
+        'japanese', 'american', 'middle eastern', 'latin',
+        'fart', 'abysmal', 'igneous', 'gospel', 'canadian',
+        'brazillian', 'fusion', 'pie', 'pizza', 'hamburger',
+        'acoustic', 'dance', 'floor', 'gyration', 'synth',
+        'temperamental', 'sociopath', 'katy perry-esque',
+        '8-bit', 'nice', 'radical', 'terrible', 'bad', 'funky',
+        'funky', 'groovy', 'loud', 'lasagna', 'moist', 'silent',
+        'fresh', 'cutting', 'bubonic', 'gangster', 'gender',
+        'hood', 'computer', 'deficient', 'long legged', 'tepit',
+        'aerosol', 'unplugged', 'retro', 'jumbo', 'football',
+        'no name', 'tektite', 'download', 'toxic', 'holocaust',
+        'spooky', 'christmas', 'chill', 'underground', 'republican',
+        'post', 'pre', 'worship'
+      ];
+
+      var getRandomGenre = function( l ){
+        l = l || 3;
+
+        if ( isNaN( l ) ){
+          l = 3;
+        }
+
+        var result = []
+
+        result.push( genres.random() );
+
+        while ( result.length < l ){
+          result.push( modifiers.random() );
+        }
+
+        rules.forEach( function( rule ){
+          result = rule( result );
+        });
+
+        return result.join(' ');
+      };
+
+      var rules = [
+        // reverse
+        function( results ){
+          return results.reverse()
+        }
+
+        // Make sure fart is second to last
+      , function( results ){
+          var i = results.indexOf('fart');
+          if ( i === -1 ) return results;
+
+          var currSecondToLast = results[ results.length - 2 ];
+          results[ i ] = currSecondToLast;
+          results[ results.length - 2 ] = 'fart';
+          return results
+        }
+      ];
+
+      document.addEventListener('DOMContentLoaded', function(){
+        document.getElementById('genre-form').addEventListener('submit', function( e ){
+          e.preventDefault();
+
+          var l      = document.getElementById('genre-length').value;
+          var result = document.getElementById('genre-result');
+
+          result.innerHTML = getRandomGenre( +l );
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <form id="genre-form">
+      <label for="genre-length">Length</label>
+      <input type="number" id="genre-length" placeholder="Length" value="3">
+      <button type="submit">Rock On</button>
+      <h3>Result</h3>
+      <h4 id="genre-result"></h4>
+    </form>
+  </body>
+</html>
