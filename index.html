@@ -10,7 +10,8 @@
         'metal', 'pop', 'punk', 'hymnals', 'country',
         'bluegrass', 'rock', 'folk', 'jazz', 'swing',
         'step', 'trance', 'jams', 'disco', 'punk', 'ace of base',
-        'grunge', 'rap', 'blues'
+        'grunge', 'rap', 'blues', 'hop', 'chants', 'ensemble',
+        'core', 'percussion', 'noise', 'acapella'
       ];
 
       var modifiers = [
@@ -26,7 +27,11 @@
         'aerosol', 'unplugged', 'retro', 'jumbo', 'football',
         'no name', 'tektite', 'download', 'toxic', 'holocaust',
         'spooky', 'christmas', 'chill', 'underground', 'republican',
-        'post', 'pre', 'worship'
+        'post', 'pre', 'worship', 'modern', 'common', 'viking',
+        'ethnic', 'mrs. brown\'s', 'gay', 'handyman', 'procedural',
+        'parallax', 'siamese', 'selfie', 'hifi', 'lowfi', 'ass', 'butt',
+        'math', 'b-side', 'gun-free zone', 'porn', 'isis',
+        'transphobic', 'china'
       ];
 
       var getRandomGenre = function( l ){
@@ -51,22 +56,45 @@
         return result.join(' ');
       };
 
+      var makeFirst = function( item ){
+        return function( results ){
+          var i = results.indexOf( item );
+          if ( i === -1 ) return results;
+
+          var first = results[0];
+          results[i] = first;
+          results[0] = item;
+
+          return results;
+        };
+      };
+
+      var makeSecondToLast = function( item ){
+        return function( results ){
+          var i = results.indexOf( item );
+          if ( i === -1 ) return results;
+
+          var secondToLast = results[ results.length - 2 ];
+          results[i] = secondToLast;
+          results[ results.length - 2 ] = item;
+
+          return results;
+        };
+      };
+
       var rules = [
         // reverse
         function( results ){
           return results.reverse()
         }
 
-        // Make sure fart is second to last
-      , function( results ){
-          var i = results.indexOf('fart');
-          if ( i === -1 ) return results;
-
-          var currSecondToLast = results[ results.length - 2 ];
-          results[ i ] = currSecondToLast;
-          results[ results.length - 2 ] = 'fart';
-          return results
-        }
+      , makeSecondToLast('gender')
+      , makeSecondToLast('fart')
+      , makeSecondToLast('synth')
+      , makeFirst('siamese')
+      , makeFirst('funky')
+      , makeFirst('deficient')
+      , makeFirst('mrs. brown\'s')
       ];
 
       document.addEventListener('DOMContentLoaded', function(){
